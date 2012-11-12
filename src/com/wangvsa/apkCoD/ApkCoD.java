@@ -19,13 +19,13 @@ public class ApkCoD {
 		for(int i=0;i<rc.getSize();i++){
 			String webName = rc.getName(i);
 			String webUrl = rc.getUrl(i);
-			System.out.print(i+1+"."+webName+",");
+			System.out.println(i+1+"."+webName+",");
 			// 正则表达式
-			String regx1 = ".*下载(次数|量|)?(:|：)?(小于|大于)?\\d+.*";	// 机锋、应用汇、安智、多多、91
+			// regx1对机锋、应用汇、安智、多多、91、木蚂蚁有效
+			String regx1 = ".*下载(次数|量|)?(:|：)?(小于|大于)?(<[^>]*>)*\\d+.*";	
 			String regx2 = ".*\\d+次下载.*";								// N多
-			String regx3 = ".*下载次数(:|：)<span>\\d+</span>.*";			// 木蚂蚁
-			String regx4 = ".*<label id=\"ctl00_AndroidMaster_Content_Apk_Download\">\\d+.*"; // 安桌
-			Pattern pattern = Pattern.compile("("+regx1+")|("+regx2+")"+"|("+regx3+")");
+			String regx3 = ".*<label id=\"ctl00_AndroidMaster_Content_Apk_Download\">\\d+.*"; // 安桌
+			Pattern pattern = Pattern.compile("("+regx1+")|("+regx2+")");
 			try {
 				URL url = new URL(webUrl);
 				HttpURLConnection conn=(HttpURLConnection)url.openConnection();
@@ -33,12 +33,14 @@ public class ApkCoD {
 			    String content = null;
 			    while((content=br.readLine())!=null){
 			    	Matcher matcher = pattern.matcher(content);
+		    		//System.out.println(content);
 			    	if(matcher.matches()){
-			    		String info = parseContent(content);
+			    		//String info = parseContent(content);
+			    		String info = parseContentSpec(content);
 				    	System.out.println(info);
 				    	break;
 			    	}// 安桌网
-			    	else if(content.matches(regx4)){
+			    	else if(content.matches(regx3)){
 			    		String info = parseContentSpec(content);
 				    	System.out.println(info);
 			    	}
