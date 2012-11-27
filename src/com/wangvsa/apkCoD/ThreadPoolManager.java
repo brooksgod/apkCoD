@@ -9,20 +9,26 @@ import java.util.List;
  *
  */
 public class ThreadPoolManager extends ThreadGroup{
-	// 固定线程数，因为已知9个网站。。。
-	int THREAD_NUMBER = 9;		
+	// 工作线程数
+	private int _threadCount = 8;
 	// 任务队列
 	List<Task> tasks = new LinkedList<Task>();
 	
-	public ThreadPoolManager(String name) {
-		super(name);
+	public ThreadPoolManager(int threadCount) {
+		this("test");
+		_threadCount = threadCount;
 		// 设置为守护线程
 		setDaemon(true);
+	}
+	
+	public ThreadPoolManager(String name) {
+		super(name);
 	}
 
 	/** 初始化线程池，创建所有工作线程并开始 */
 	public synchronized void init(){
-		for (int i = 0;i<THREAD_NUMBER;i++){ 
+		int N = _threadCount;
+		for (int i = 0;i<N;i++){ 
 			new WorkThread(i).start();
        }
 	}

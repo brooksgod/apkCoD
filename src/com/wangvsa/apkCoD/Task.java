@@ -21,7 +21,8 @@ public class Task implements Runnable{
 	
 	@Override
 	public void run() {
-		/* 正则表达式 * regx1对机锋、应用汇、安智、多多、91、木蚂蚁、安桌有效 
+		/* 正则表达式 
+		 * regx1对机锋、应用汇、安智、多多、91、木蚂蚁、安桌有效 
 		 * regx2对N多有效 
 		 */
 		String regx1 = "(下载(次数|量)?(:|：)?(小于|大于)?(<[^>]*>)*\\d+)";	

@@ -9,11 +9,12 @@ package com.wangvsa.apkCoD;
 
 public class ApkCoD {
 	public static void main(String[] args){
-		ThreadPoolManager threads = new ThreadPoolManager("TEST");
-		threads.init();
-		
 		// 读配置文件获得网站名和url
 		ReadConfig rc = new ReadConfig("urls.conf");
+		
+		// 根据获得的网站数来设置线程数
+		ThreadPoolManager threads = new ThreadPoolManager(rc.getSize());
+		threads.init();
 		
 		for(int i=0;i<rc.getSize();i++) { 
 			String webName = rc.getName(i); 
